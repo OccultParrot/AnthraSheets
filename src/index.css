@@ -1,7 +1,1 @@
 @import "tailwindcss";
-
-@theme {
-    --color-background: oklab(0.183076 0.00112209 -0.00388214);
-    --color-text: oklab(0.952331 0.000418991 -0.00125992);
-    --color-blurple: rgb(88, 101, 242);
-}
