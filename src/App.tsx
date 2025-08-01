@@ -1,20 +1,25 @@
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import type { ReactElement } from "react";
 
+// Layout Elements
+import Header from "./components/layout/Header.tsx"
+import Footer from "./components/layout/Footer.tsx";
+
 // Config
 import type { RouteProps } from "./config/types.ts";
 import { routes } from "./config/routes.tsx";
+
+
 
 function App() {
   const Layout = (): ReactElement => {
     return (
       <div className="flex h-screen flex-col">
-        <div className="flex h-screen flex-row">
+          <Header />
           <main className="grow">
             <Outlet/>
           </main>
-        </div>
-        {/*<Footer/>*/ }
+        <Footer/>
       </div>
     )
   }
