@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from "react";
+import type { ChangeEvent, ReactElement, ReactNode } from "react";
 
 export type RouteProps = {
   name: string;
@@ -16,4 +16,24 @@ export interface SidebarProps {
 export interface SidebarContentProps {
   content: ReactNode;
   autoClose?: boolean;
+}
+
+export interface InputChangeEvent<T> {
+  name: string;
+  value: T
+}
+
+interface FormOptionProps {
+  label?: string;
+  name: string;
+  required?: boolean;
+  onChange: (e: InputChangeEvent<any>) => void;
+}
+
+export interface TextInputProps extends FormOptionProps {
+  placeholder?: string;
+}
+
+export interface ListInputProps extends FormOptionProps {
+  maxItems?: number;
 }
