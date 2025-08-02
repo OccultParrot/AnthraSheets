@@ -69,7 +69,7 @@ function HomePage() {
   });
 
   return (
-    <div className="bg-4 text-1 rounded-2xl p-4 m-4 flex flex-row items-center justify-between">
+    <div className="bg-4 text-1 rounded-2xl p-4 m-4 flex flex-row justify-between">
       <div>
         <h2 className="text-xl font-bold mb-4">Character Form</h2>
         <FormOption label="Name" name="name" type="text" required/>
@@ -83,7 +83,70 @@ function HomePage() {
       <div className="bg-5 p-4 rounded-lg w-1/2">
         <h2 className="text-xl font-bold mb-4">Preview</h2>
         <br />
-        <Markdown remarkPlugins={[remarkGfm]}></Markdown>
+        <article className="prose prose-sm prose-invert">
+          <Markdown remarkPlugins={[remarkGfm]}>{ `
+# NAME
+
+*trait, trait, trait*
+
+*meaning of name*
+
+\`Genetic Information\`
+> - **Species & Variant**: 
+> - **Gender**: 
+> - **Age**: XX season(s)
+> - **Immune System Type**: N(eutral) / W(eak) / S(trong)
+> - **Status**: alive/dead
+
+\`milestones\`
+> :BRONZEMEDAL:
+>
+> :SILVERMEDAL:
+>
+> :GOLDMEDAL: 
+>
+> :DIAMONDMEDAL: 
+
+\`Appearance\`
+> - **d**ominant skin: 
+> - **r**ecessive skin(s): 
+> - **eye-colour**: 
+> - **mutations**: 
+
+\`Family Tree\`   
+> ♂ **father**: *NAME*
+> - **skin**: [D] ... [R] ...
+> - **eye-color**: 
+> - **health, genes & mutation**: 
+> 
+> ♀ **mother**: *NAME*
+> - **skin**: [D] ... [R] ...
+> - **eye-color**: 
+> - **health, genes & mutation**: 
+>
+> **clutchmates**
+> ♀/♂ unknown
+
+\`offspring\` 
+**\`1st clutch\`**
+> - **sire/dame**: [link to sheet]
+> - :egg: • [name] | [gender] | [status]
+> - :egg: • [name] | [gender] | [status]
+> - :egg: • [name] | [gender] | [status]
+
+**\`2nd clutch\`**
+> - **sire/dame**: [link to sheet]
+> - :egg: • [name] | [gender] | [status]
+> - :egg: • [name] | [gender] | [status]
+> - :egg: • [name] | [gender] | [status]
+
+**\`3rd clutch\`**
+> - **sire/dame**: [link to sheet]
+> - :egg: • [name] | [gender] | [status]
+> - :egg: • [name] | [gender] | [status]
+> - :egg: • [name] | [gender] | [status]
+          ` }</Markdown>
+        </article>
       </div>
     </div>
   );
