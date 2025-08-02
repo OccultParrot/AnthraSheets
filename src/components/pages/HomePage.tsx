@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 interface FormOptionProps {
   label: string;
@@ -70,7 +71,7 @@ function HomePage() {
 
   return (
     <div className="bg-4 text-1 rounded-2xl p-4 m-4 flex flex-row justify-between">
-      <div>
+      <div className="py-4 px-6">
         <h2 className="text-xl font-bold mb-4">Character Form</h2>
         <FormOption label="Name" name="name" type="text" required/>
         <FormOption label="Species" name="species" type="text" required/>
@@ -81,9 +82,13 @@ function HomePage() {
         <FormOption label="Status" name="status" type="text" required/>
       </div>
       <div className="bg-5 p-4 rounded-lg w-1/2">
-        <h2 className="text-xl font-bold mb-4">Preview</h2>
-        <br />
-        <article className="prose prose-sm prose-invert">
+        <div className="flex items-center justify-between mb-4 px-2">
+          <h2 className="text-xl font-bold mb-4">Preview</h2>
+          <button className="p-2 rounded-xl hover:bg-3 transition ease-in-out duration-250" onClick={() => alert("Copied to clipboard!")}>
+            <ContentCopyIcon/>
+          </button>
+        </div>
+        <article className="prose prose-sm prose-invert px-2">
           <Markdown remarkPlugins={[remarkGfm]}>{ `
 # NAME
 
