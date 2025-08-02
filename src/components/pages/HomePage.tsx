@@ -140,7 +140,7 @@ ${formData.description ? `*${formData.description.trim()}*` : ''}
       <div className="bg-5 p-4 rounded-lg w-auto md:w-1/2">
         <div className="flex items-center justify-between mb-4 px-2">
           <h2 className="text-xl font-bold mb-4">Preview</h2>
-          <button className="p-2 rounded-xl hover:bg-3 transition ease-in-out duration-250"
+          <button className="p-2 rounded-xl hover:bg-3 transition ease-in-out duration-250 cursor-pointer"
                   onClick={ () => copyToClipboard(markdownContent) }>
             <ContentCopyIcon/>
           </button>
