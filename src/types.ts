@@ -78,6 +78,7 @@ export interface FormState {
   species: string;
   subspecies: string;
   gender: string;
+  immuneSystem: string;
   dominantSkin: string;
   recessiveSkins: string[];
   eyeColor: string;
@@ -94,6 +95,7 @@ export interface FormState {
   motherRecessiveSkins: string[];
   motherEyeColor: string;
   motherHealthGenesMutations: string;
+  linkToClutch?: string;
   clutchmates: Clutchmate[];
   clutches: Clutch[];
 }

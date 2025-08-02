@@ -98,7 +98,7 @@ function CharacterSheetPage() {
       prev.map((clutch, i) => {
         if (i === index) {
           const updatedClutch = { ...clutch, [field]: value };
-          
+
           if (field === 'eggCount') {
             const newEggCount = value as number;
             const currentEggs = clutch.eggs;
@@ -147,7 +147,7 @@ function CharacterSheetPage() {
 
   const generateClutchmatesMarkdown = () => {
     if (clutchmates.length === 0) {
-      return '>\n> ♀/♂ unknown';
+      return '';
     }
 
     return clutchmates.map((clutchmate) => {
@@ -162,23 +162,7 @@ function CharacterSheetPage() {
 
   const generateClutchesMarkdown = () => {
     if (clutches.length === 0) {
-      return `**\`1st clutch\`**
-> - **sire/dame**: [link to sheet]
-> - :egg: • [name] | [gender] | [status]
-> - :egg: • [name] | [gender] | [status]
-> - :egg: • [name] | [gender] | [status]
-
-**\`2nd clutch\`**
-> - **sire/dame**: [link to sheet]
-> - :egg: • [name] | [gender] | [status]
-> - :egg: • [name] | [gender] | [status]
-> - :egg: • [name] | [gender] | [status]
-
-**\`3rd clutch\`**
-> - **sire/dame**: [link to sheet]
-> - :egg: • [name] | [gender] | [status]
-> - :egg: • [name] | [gender] | [status]
-> - :egg: • [name] | [gender] | [status]`;
+      return '';
     }
 
     return clutches.map((clutch, index) => {
@@ -213,44 +197,44 @@ ${ eggsMarkdown }`;
 
 ${ formData.description ? `*${ formData.description.trim() }*` : '' }
 
-\`Genetic Information\`
-> - **Species & Subspecies**: *${ formData.species } ${ formData.subspecies }*
-> - **Gender**: ${ formData.gender }
-> - **Age**: ${ formData.age } season${ formData.age <= 1 ? '' : 's' }
-> - **Immune System Type**: N(eutral) / W(eak) / S(trong)
-> - **Status**: ${formData.status}
+\`genetic information\`
+> - **species & subspecies**: *${ formData.species } ${ formData.subspecies }*
+> - **gender**: ${ formData.gender }
+> - **age**: ${ formData.age } season${ formData.age <= 1 ? '' : 's' }
+> - **immune system type**: ${ formData.immuneSystem }
+> - **status**: ${formData.status}
 
 \`milestones\`
 > :BRONZEMEDAL: ${formData.bronzeMileStone}
->
+
 > :SILVERMEDAL: ${formData.silverMileStone}
->
+
 > :GOLDMEDAL: ${formData.goldMileStone}
->
+
 > :DIAMONDMEDAL: ${formData.diamondMileStone}
 
-\`Appearance\`
-> - **d**ominant skin: ${ formData.dominantSkin }
-> - **r**ecessive skin(s): ${ formData.recessiveSkins }
-> - **eye-colour**: ${ formData.eyeColor }
+\`appearance\`
+> - **dominant skin**: ${ formData.dominantSkin }
+> - **recessive skin(s)**: ${ formData.recessiveSkins }
+> - **eye color**: ${ formData.eyeColor }
 > - **mutations**: ${ formData.mutations.length > 0 ? formData.mutations.join(', ') : 'none' }
 
-\`Family Tree\`   
+\`family tree\`   
 > ♂ **father**: *${ formData.fatherLink ? `[${ formData.fatherName }](${ formData.fatherLink })` : formData.fatherName }*
 > - **skin**: [D] ${ formData.fatherDominantSkin } [R] ${ formData.fatherRecessiveSkins.join(', ') }
-> - **eye-color**: ${ formData.fatherEyeColor }
+> - **eye color**: ${ formData.fatherEyeColor }
 > - **health, genes & mutation**: ${ formData.fatherHealthGenesMutations }
 > 
 > ♀ **mother**: *${ formData.motherLink ? `[${ formData.motherName }](${ formData.motherLink })` : formData.motherName }*
 > - **skin**: [D] ${ formData.motherDominantSkin } [R] ${ formData.motherRecessiveSkins.join(', ') }
-> - **eye-color**: ${ formData.motherEyeColor }
+> - **eye color**: ${ formData.motherEyeColor }
 > - **health, genes & mutation**: ${ formData.motherHealthGenesMutations }
->
-> **clutchmates**
-${ generateClutchmatesMarkdown() }
 
-\`offspring\` 
-${ generateClutchesMarkdown() }`
+> ${formData.linkToClutch ? `[link to clutch](${formData.linkToClutch})` : ''}
+
+> ${formData.clutchmates.length > 0 ? `**Clutchmates:**\n${ generateClutchmatesMarkdown() }` : ''}
+
+${formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdown() }` : ''}`
 
   return (
     <div className="bg-4 text-1 rounded-2xl p-4 m-4 flex flex-col md:flex-row md:justify-between ">
@@ -263,7 +247,7 @@ ${ generateClutchesMarkdown() }`
         <ListInput label="Traits" name="traits" onChange={ onChange }/>
         <NumberInput label="Age" name="age" onChange={ onChange }/>
         <TextInput label="Status" name="status" onChange={ onChange } placeholder="Alive or Dead"/>
-        
+
         <h3 className="text-lg font-bold mb-2 text-center">── Milestones ──</h3>
         <TextInput name="bronzeMilestone" onChange={onChange} />
         <TextInput name="silverMilestone" onChange={onChange} />
@@ -274,6 +258,7 @@ ${ generateClutchesMarkdown() }`
         <TextInput label="Species" name="species" onChange={ onChange }/>
         <TextInput label="Subspecies" name="subspecies" onChange={ onChange }/>
         <TextInput label="Gender" name="gender" onChange={ onChange }/>
+        <TextInput label="Immune System Type" name="immuneSystem" onChange={ onChange } placeholder="Neutral / Weak / Strong"/>
         <TextInput label="Dominant Skin" name="dominantSkin" onChange={ onChange }/>
         <ListInput label="Recessive Skin(s)" name="recessiveSkins" onChange={ onChange }/>
         <TextInput label="Eye Color" name="eyeColor" onChange={ onChange }/>
@@ -297,6 +282,7 @@ ${ generateClutchesMarkdown() }`
         <TextInput label="Health, Genes & Mutations" name="motherHealthGenesMutations" onChange={ onChange }/>
 
         <h4 className="text-md font-bold mb-2">Clutchmates</h4>
+        <TextInput label="Link to Clutch" name="linkToClutch" onChange={onChange} placeholder="Optional"/>
         <ul>
           { clutchmates.map((clutchmate, index) => (
             <div className="rounded-2xl p-4 flex flex-col bg-5 justify-between mb-2" key={ index }>
