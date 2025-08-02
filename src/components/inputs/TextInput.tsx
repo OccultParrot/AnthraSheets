@@ -1,4 +1,4 @@
-import type {TextInputProps} from '../../config/types';
+import type { TextInputProps } from '../../types.ts';
 
 function TextInput(props: TextInputProps) {
   return (
@@ -7,9 +7,11 @@ function TextInput(props: TextInputProps) {
       <input
         name={ props.name }
         type="text"
-        placeholder={props.placeholder}
+        placeholder={ props.placeholder }
         required={ props.required }
-        onChange={ (e) => { props.onChange(e.target) }}
+        onChange={ (e) => {
+          props.onChange(e.target)
+        } }
         className="h-8 ml-2 w-full p-2 bg-3 rounded-md focus:outline-none focus:ring-2 focus:border-transparent"
       />
     </div>
