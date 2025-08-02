@@ -15,7 +15,7 @@ import NumberInput from "../inputs/NumberInput.tsx";
 // Types
 import type { Clutch, Clutchmate, Egg, FormState, InputChangeEvent } from "../../types.ts";
 
-function HomePage() {
+function CharacterSheetPage() {
   const copyToClipboard = (text: string) => {
     if (navigator.clipboard) {
       try {
@@ -34,6 +34,11 @@ function HomePage() {
     name: '',
     age: 0,
     traits: [],
+    status: '',
+    bronzeMileStone: '',
+    silverMileStone: '',
+    goldMileStone: '',
+    diamondMileStone: '',
     species: '',
     subspecies: '',
     gender: '',
@@ -93,14 +98,12 @@ function HomePage() {
       prev.map((clutch, i) => {
         if (i === index) {
           const updatedClutch = { ...clutch, [field]: value };
-
-          // When eggCount changes, adjust the eggs array
+          
           if (field === 'eggCount') {
             const newEggCount = value as number;
             const currentEggs = clutch.eggs;
 
             if (newEggCount > currentEggs.length) {
-              // Add new eggs
               const eggsToAdd = newEggCount - currentEggs.length;
               const newEggs = Array.from({ length: eggsToAdd }, () => ({
                 name: '',
@@ -109,7 +112,6 @@ function HomePage() {
               }));
               updatedClutch.eggs = [ ...currentEggs, ...newEggs ];
             } else if (newEggCount < currentEggs.length) {
-              // Remove excess eggs
               updatedClutch.eggs = currentEggs.slice(0, newEggCount);
             }
           }
@@ -216,16 +218,16 @@ ${ formData.description ? `*${ formData.description.trim() }*` : '' }
 > - **Gender**: ${ formData.gender }
 > - **Age**: ${ formData.age } season${ formData.age <= 1 ? '' : 's' }
 > - **Immune System Type**: N(eutral) / W(eak) / S(trong)
-> - **Status**: alive/dead
+> - **Status**: ${formData.status}
 
 \`milestones\`
-> :BRONZEMEDAL:
+> :BRONZEMEDAL: ${formData.bronzeMileStone}
 >
-> :SILVERMEDAL:
+> :SILVERMEDAL: ${formData.silverMileStone}
 >
-> :GOLDMEDAL: 
+> :GOLDMEDAL: ${formData.goldMileStone}
 >
-> :DIAMONDMEDAL: 
+> :DIAMONDMEDAL: ${formData.diamondMileStone}
 
 \`Appearance\`
 > - **d**ominant skin: ${ formData.dominantSkin }
@@ -261,6 +263,12 @@ ${ generateClutchesMarkdown() }`
         <ListInput label="Traits" name="traits" onChange={ onChange }/>
         <NumberInput label="Age" name="age" onChange={ onChange }/>
         <TextInput label="Status" name="status" onChange={ onChange } placeholder="Alive or Dead"/>
+        
+        <h3 className="text-lg font-bold mb-2 text-center">── Milestones ──</h3>
+        <TextInput name="bronzeMilestone" onChange={onChange} />
+        <TextInput name="silverMilestone" onChange={onChange} />
+        <TextInput name="goldMilestone" onChange={onChange} />
+        <TextInput name="diamondMilestone" onChange={onChange} />
 
         <h3 className="text-lg font-bold mb-2 text-center">── Genetics ──</h3>
         <TextInput label="Species" name="species" onChange={ onChange }/>
@@ -412,4 +420,4 @@ ${ generateClutchesMarkdown() }`
   );
 }
 
-export default HomePage;
+export default CharacterSheetPage;
