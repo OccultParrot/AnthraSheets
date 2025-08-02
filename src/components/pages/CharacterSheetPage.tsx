@@ -33,7 +33,7 @@ function CharacterSheetPage() {
   const [ formData, setFormData ] = useState<FormState>({
     name: 'Name',
     age: 0,
-    traits: ['trait', 'trait', 'trait'],
+    traits: [ 'trait', 'trait', 'trait' ],
     status: 'N/A',
     immuneSystem: 'N/A',
     bronzeMileStone: '',
@@ -44,17 +44,17 @@ function CharacterSheetPage() {
     subspecies: 'N/A',
     gender: 'N/A',
     dominantSkin: 'N/A',
-    recessiveSkins: ['N/A'],
+    recessiveSkins: [ 'N/A' ],
     eyeColor: 'N/A',
     mutations: [],
     fatherName: 'Name',
     fatherDominantSkin: 'N/A',
-    fatherRecessiveSkins: ['N/A'],
+    fatherRecessiveSkins: [ 'N/A' ],
     fatherEyeColor: 'N/A',
     fatherHealthGenesMutations: 'N/A',
     motherName: 'Name',
     motherDominantSkin: 'N/A',
-    motherRecessiveSkins: ['N/A'],
+    motherRecessiveSkins: [ 'N/A' ],
     motherEyeColor: 'N/A',
     motherHealthGenesMutations: 'N/A',
     clutchmates: [],
@@ -203,16 +203,16 @@ ${ formData.description ? `*${ formData.description.trim() }*` : '' }
 > - **gender**: ${ formData.gender }
 > - **age**: ${ formData.age } season${ formData.age <= 1 ? '' : 's' }
 > - **immune system type**: ${ formData.immuneSystem }
-> - **status**: ${formData.status}
+> - **status**: ${ formData.status }
 
 \`milestones\`
-> :BRONZEMEDAL: ${formData.bronzeMileStone}
+> :BRONZEMEDAL: ${ formData.bronzeMileStone }
 
-> :SILVERMEDAL: ${formData.silverMileStone}
+> :SILVERMEDAL: ${ formData.silverMileStone }
 
-> :GOLDMEDAL: ${formData.goldMileStone}
+> :GOLDMEDAL: ${ formData.goldMileStone }
 
-> :DIAMONDMEDAL: ${formData.diamondMileStone}
+> :DIAMONDMEDAL: ${ formData.diamondMileStone }
 
 \`appearance\`
 > - **dominant skin**: ${ formData.dominantSkin }
@@ -231,11 +231,11 @@ ${ formData.description ? `*${ formData.description.trim() }*` : '' }
 > - **eye color**: ${ formData.motherEyeColor }
 > - **health, genes & mutation**: ${ formData.motherHealthGenesMutations }
 
-> ${formData.linkToClutch ? `[link to clutch](${formData.linkToClutch})` : ''}
+${ formData.linkToClutch ? `> [link to clutch](${ formData.linkToClutch })` : '' }
 
-> ${formData.clutchmates.length > 0 ? `**Clutchmates:**\n${ generateClutchmatesMarkdown() }` : ''}
+${ formData.clutchmates.length > 0 ? `> **Clutchmates:**\n${ generateClutchmatesMarkdown() }` : '' }
 
-${formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdown() }` : ''}`
+${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdown() }` : '' }`
 
   return (
     <div className="bg-4 text-1 rounded-2xl p-4 m-4 flex flex-col md:flex-row md:justify-between ">
@@ -250,16 +250,17 @@ ${formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdown
         <TextInput label="Status" name="status" onChange={ onChange } placeholder="Alive or Dead"/>
 
         <h3 className="text-lg font-bold mb-2 text-center">── Milestones ──</h3>
-        <TextInput name="bronzeMilestone" onChange={onChange} />
-        <TextInput name="silverMilestone" onChange={onChange} />
-        <TextInput name="goldMilestone" onChange={onChange} />
-        <TextInput name="diamondMilestone" onChange={onChange} />
+        <TextInput name="bronzeMilestone" onChange={ onChange }/>
+        <TextInput name="silverMilestone" onChange={ onChange }/>
+        <TextInput name="goldMilestone" onChange={ onChange }/>
+        <TextInput name="diamondMilestone" onChange={ onChange }/>
 
         <h3 className="text-lg font-bold mb-2 text-center">── Genetics ──</h3>
         <TextInput label="Species" name="species" onChange={ onChange }/>
         <TextInput label="Subspecies" name="subspecies" onChange={ onChange }/>
         <TextInput label="Gender" name="gender" onChange={ onChange }/>
-        <TextInput label="Immune System Type" name="immuneSystem" onChange={ onChange } placeholder="Neutral / Weak / Strong"/>
+        <TextInput label="Immune System Type" name="immuneSystem" onChange={ onChange }
+                   placeholder="Neutral / Weak / Strong"/>
         <TextInput label="Dominant Skin" name="dominantSkin" onChange={ onChange }/>
         <ListInput label="Recessive Skin(s)" name="recessiveSkins" onChange={ onChange }/>
         <TextInput label="Eye Color" name="eyeColor" onChange={ onChange }/>
@@ -283,7 +284,7 @@ ${formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdown
         <TextInput label="Health, Genes & Mutations" name="motherHealthGenesMutations" onChange={ onChange }/>
 
         <h4 className="text-md font-bold mb-2">Clutchmates</h4>
-        <TextInput label="Link to Clutch" name="linkToClutch" onChange={onChange} placeholder="Optional"/>
+        <TextInput label="Link to Clutch" name="linkToClutch" onChange={ onChange } placeholder="Optional"/>
         <ul>
           { clutchmates.map((clutchmate, index) => (
             <div className="rounded-2xl p-4 flex flex-col bg-5 justify-between mb-2" key={ index }>
