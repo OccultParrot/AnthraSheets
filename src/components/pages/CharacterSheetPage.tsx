@@ -35,6 +35,7 @@ function CharacterSheetPage() {
     age: 0,
     traits: [],
     status: '',
+    immuneSystem: '',
     bronzeMileStone: '',
     silverMileStone: '',
     goldMileStone: '',
