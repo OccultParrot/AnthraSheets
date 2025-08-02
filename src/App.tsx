@@ -6,7 +6,7 @@ import Header from "./components/layout/Header.tsx"
 import Footer from "./components/layout/Footer.tsx";
 
 // Config
-import type { RouteProps } from "./config/types.ts";
+import type { RouteProps } from "./types.ts";
 import { routes } from "./config/routes.tsx";
 
 
