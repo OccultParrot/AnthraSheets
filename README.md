@@ -2,6 +2,8 @@
 
 **AntraSheets** is a web-based application for generating structured character sheets focused on **anthropology** — the study of humans and their traits, cultures, and lineage. It’s designed to help with roleplay, worldbuilding, or creative character design in speculative biology, sci-fi, fantasy, or historical settings.
 
+You can access the live website here: [https://www.anthrasheets.com/](https://www.anthrasheets.com/)
+
 ---
 
 ## ✨ Features
