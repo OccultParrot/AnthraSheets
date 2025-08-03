@@ -28,6 +28,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Generating Routes */}
         <Route path="/" element={ <Layout/> }>
           {
             routes.map((item: RouteProps, index: number) => (

@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
+// The values that the dino fact API returns
 type DinoFact = {
   Name: string;
   Description: string;
 };
 
 function Header() {
+  // States for dino fact stuff
   const [dinoFact, setDinoFact] = useState<DinoFact | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,6 +31,9 @@ function Header() {
     fetchDinoFact();
   }, []);
 
+  /**
+   * Renders the dino fact if available, otherwise returns null.
+   */
   const renderDinoFact = () => {
     if (loading) return null;
     if (error) return <p>Error: {error}</p>;
