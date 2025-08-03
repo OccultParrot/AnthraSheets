@@ -9,9 +9,9 @@ type DinoFact = {
 
 function Header() {
   // States for dino fact stuff
-  const [dinoFact, setDinoFact] = useState<DinoFact | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [ dinoFact, setDinoFact ] = useState<DinoFact | null>(null);
+  const [ loading, setLoading ] = useState(true);
+  const [ error, setError ] = useState(null);
 
   const fetchDinoFact = async () => {
     try {
@@ -36,13 +36,13 @@ function Header() {
    */
   const renderDinoFact = () => {
     if (loading) return null;
-    if (error) return <p>Error: {error}</p>;
+    if (error) return <p>Error: { error }</p>;
     if (!dinoFact) return null;
 
     return (
       <div className="flex flex-col text-center sm:flex-row justify-between gap-2 p-4 text-1">
-        <h2 className="text-l font-bold">{dinoFact.Name}:</h2>
-        <em>{dinoFact.Description}</em>
+        <h2 className="text-l font-bold">{ dinoFact.Name }:</h2>
+        <em>{ dinoFact.Description }</em>
       </div>
     );
   };
@@ -57,7 +57,7 @@ function Header() {
             AnthraSheets
           </h1>
         </Link>
-        {renderDinoFact()}
+        { renderDinoFact() }
       </div>
     </header>
   );

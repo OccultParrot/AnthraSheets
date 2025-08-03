@@ -10,15 +10,14 @@ import type { RouteProps } from "./types.ts";
 import { routes } from "./config/routes.tsx";
 
 
-
 function App() {
   const Layout = (): ReactElement => {
     return (
       <div className="flex h-screen flex-col">
-          <Header />
-          <main className="grow">
-            <Outlet/>
-          </main>
+        <Header/>
+        <main className="grow">
+          <Outlet/>
+        </main>
         <Footer/>
       </div>
     )
@@ -28,7 +27,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Generating Routes */}
+        {/* Generating Routes */ }
         <Route path="/" element={ <Layout/> }>
           {
             routes.map((item: RouteProps, index: number) => (

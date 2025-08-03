@@ -1,5 +1,6 @@
 /* Setting up TailwindCSS */
 @import "tailwindcss";
+
 @plugin "@tailwindcss/typography";
 
 /* The color theme for the site */

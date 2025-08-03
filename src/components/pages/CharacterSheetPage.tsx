@@ -28,7 +28,7 @@ function CharacterSheetPage() {
    */
   const importData = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
-    
+
     const file = e.target.files[0];
 
     if (!file) return;
@@ -40,7 +40,7 @@ function CharacterSheetPage() {
       try {
         // Parse the data
         const data = JSON.parse(e.target?.result as string);
-        
+
         // Set all the useStates
         setFormData(data);
         setClutchmates(data.clutchmates);
@@ -51,7 +51,7 @@ function CharacterSheetPage() {
         return;
       }
     }
-    
+
     // Actually reading the file
     reader.readAsText(file);
   }
@@ -62,7 +62,7 @@ function CharacterSheetPage() {
   const exportData = () => {
     // Converting formData to JSON and creating a Blob for download
     const blob = new Blob([ JSON.stringify(formData, null, 2) ], { type: 'application/json' });
-    
+
     // Creating a link to download the Blob
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -70,10 +70,10 @@ function CharacterSheetPage() {
     const date = new Date();
     a.download = `${ formData.name.trim() || 'character' }-${ date.getMonth() }_${ date.getDate() }_${ date.getFullYear() }|${ date.getTime() }.asheet`;
     document.body.appendChild(a);
-    
+
     // Triggering the download
     a.click();
-    
+
     // Cleanup: removing the link and revoking the object URL
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
@@ -83,7 +83,7 @@ function CharacterSheetPage() {
   /**
    * Copies the provided text to the clipboard using the Clipboard API.
    * @param text - The text to copy to the clipboard.
-   * 
+   *
    * TODO: Replace the alert with a modal or something, alerts kinda look ugly
    */
   const copyToClipboard = (text: string) => {
@@ -152,7 +152,7 @@ function CharacterSheetPage() {
 
   /**
    * Appends a new clutchmate to the clutchmates state.
-   * 
+   *
    * The appended item is initialized blank
    */
   const appendClutchmate = () => {
@@ -238,12 +238,12 @@ function CharacterSheetPage() {
       })
     );
   };
-  
+
   /**
    * Handles input changes for the form fields.
-   * 
+   *
    * Ignore the linter error, I know I am using an `any` type here, but I cant be bothered to fix it
-   * 
+   *
    * @param e - The input change event containing the name and value of the field.
    */
   const onChange = (e: InputChangeEvent<any>) => {
@@ -256,7 +256,7 @@ function CharacterSheetPage() {
 
   /**
    * Generates the markdown for the clutchmates section.
-   * 
+   *
    * @returns A string containing the markdown formatted clutchmates.
    */
   const generateClutchmatesMarkdown = () => {
@@ -279,7 +279,7 @@ function CharacterSheetPage() {
 
   /**
    * Generates the markdown for the clutches section.
-   * 
+   *
    * @returns A string containing the markdown formatted clutches.
    */
   const generateClutchesMarkdown = () => {
@@ -382,7 +382,7 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
              onChange={ importData }/>
       <div className="py-4 px-6 w-auto md:w-1/2">
         <h2 className="text-xl font-bold mb-4">Character Form</h2>
-        {/* Import Export Button Group */}
+        {/* Import Export Button Group */ }
         <div className="flex flex-row justify-between lg:justify-center mb-4">
           <button onClick={ handleFileInputClick }
                   className="p-2 mr-4 rounded-xl hover:bg-3 transition ease-in-out duration-250 cursor-pointer">
@@ -395,8 +395,8 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
             <PublishOutlinedIcon/>
           </button>
         </div>
-        
-        {/* Form */}
+
+        {/* Form */ }
         <h3 className="text-lg font-bold mb-2 text-center">── General ──</h3>
         <TextInput label="Name" name="name" value={ formData.name } onChange={ onChange }/>
         <TextInput label="Description" placeholder="Optional" name={ "description" } value={ formData.description }
@@ -455,7 +455,7 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
         <h4 className="text-md font-bold mb-2">Clutchmates</h4>
         <TextInput label="Link to Clutch" name="linkToClutch" onChange={ onChange } value={ formData.linkToClutch }
                    placeholder="Optional"/>
-        {/* Clutchmate Inputs */}
+        {/* Clutchmate Inputs */ }
         <ul>
           { clutchmates.map((clutchmate, index) => (
             <div className="rounded-2xl p-4 flex flex-col bg-5 justify-between mb-2" key={ index }>
@@ -490,8 +490,8 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
             </div>
           )) }
         </ul>
-        
-        {/* Add Clutchmate Button */}
+
+        {/* Add Clutchmate Button */ }
         <div className="flex justify-center">
           <button onClick={ appendClutchmate }
                   className="flex items-center justify-center w-8 h-8 bg-4 rounded-full cursor-pointer hover:bg-3 transition ease-in-out duration-250 mr-2">
@@ -500,7 +500,7 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
         </div>
 
         <h4 className="text-md font-bold mb-2">Clutches</h4>
-        {/* Clutches Inputs */}
+        {/* Clutches Inputs */ }
         <ul>
           { clutches.map((clutch, index) => (
             <div className="rounded-2xl p-4 flex flex-col bg-5 justify-between mb-2" key={ index }>
@@ -531,8 +531,8 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
                 name="eggCount"
                 value={ clutch.eggCount }
                 onChange={ (e) => updateClutch(index, 'eggCount', e.value) }/>
-              
-              {/* Dynamically Create Egg Inputs based on how large the Egg Counter is */}
+
+              {/* Dynamically Create Egg Inputs based on how large the Egg Counter is */ }
               { clutch.eggs.map((egg, eggIndex) => (
                 <div key={ eggIndex } className="bg-4 rounded-xl p-3 mt-2">
                   <h6 className="text-sm font-bold mb-2">Egg { eggIndex + 1 }</h6>
@@ -568,8 +568,8 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
             </div>
           )) }
         </ul>
-        
-        {/* Add Clutch Button */}
+
+        {/* Add Clutch Button */ }
         <div className="flex justify-center">
           <button onClick={ appendClutch }
                   className="flex items-center justify-center w-8 h-8 bg-4 rounded-full cursor-pointer hover:bg-3 transition ease-in-out duration-250 mr-2">
@@ -579,9 +579,9 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
 
 
       </div>
-      {/* Preview Section */}
+      {/* Preview Section */ }
       <div className="bg-5 p-4 rounded-lg w-auto md:w-1/2">
-        {/* Section Header */}
+        {/* Section Header */ }
         <header className="flex items-center justify-between mb-4 px-2">
           <h2 className="text-xl font-bold mb-4">Preview</h2>
           <button className="p-2 rounded-xl hover:bg-3 transition ease-in-out duration-250 cursor-pointer"
@@ -589,7 +589,7 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
             <ContentCopyIcon/>
           </button>
         </header>
-        {/* The Preview */}
+        {/* The Preview */ }
         <article className="prose prose-sm prose-invert px-2">
           <Markdown remarkPlugins={ [ remarkGfm ] }>{ markdownContent }</Markdown>
         </article>

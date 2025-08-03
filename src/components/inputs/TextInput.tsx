@@ -7,7 +7,7 @@ function TextInput(props: TextInputProps) {
       <input
         name={ props.name }
         type="text"
-        value={props.value || ''}
+        value={ props.value || '' }
         placeholder={ props.placeholder }
         required={ props.required }
         onChange={ (e) => {

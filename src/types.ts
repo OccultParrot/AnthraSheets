@@ -62,7 +62,7 @@ export interface Clutchmate {
   name: string;
   link?: string;
   sex: string;
-  
+
 }
 
 /**
