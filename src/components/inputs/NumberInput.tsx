@@ -7,6 +7,7 @@ function NumberInput(props: NumberInputProps) {
       <input
         name={ props.name }
         type="number"
+        value={ props.value || 0 }
         min={ props.min }
         max={ props.max }
         step={ props.step }

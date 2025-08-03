@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import type { ChangeEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -6,6 +7,8 @@ import remarkGfm from "remark-gfm";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import PublishOutlinedIcon from '@mui/icons-material/PublishOutlined';
+import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 
 // Input Components
 import TextInput from "../inputs/TextInput.tsx";
@@ -16,6 +19,49 @@ import NumberInput from "../inputs/NumberInput.tsx";
 import type { Clutch, Clutchmate, Egg, FormState, InputChangeEvent } from "../../types.ts";
 
 function CharacterSheetPage() {
+  const importData = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target?.result as string);
+        
+        setFormData(data);
+        setClutchmates(data.clutchmates);
+        setClutches(data.clutches);
+      } catch (err) {
+        console.error("Error parsing JSON file:", err);
+        alert("Failed to import data. Please ensure the file is a valid .asheet or .json file.");
+        return;
+      }
+    }
+
+    reader.readAsText(file);
+  }
+
+  const exportData = () => {
+    // Converting formData to JSON and creating a Blob for download
+    const blob = new Blob([ JSON.stringify(formData, null, 2) ], { type: 'application/json' });
+    // Creating a link to download the Blob
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    const date = new Date();
+    a.download = `${ formData.name.trim() || 'character' }-${ date.getMonth() }_${ date.getDate() }_${ date.getFullYear() }|${ date.getTime() }.asheet`;
+    document.body.appendChild(a);
+    // Triggering the download
+    a.click();
+    // Cleanup: removing the link and revoking the object URL
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    alert("Data exported successfully!");
+  }
+
   const copyToClipboard = (text: string) => {
     if (navigator.clipboard) {
       try {
@@ -31,32 +77,32 @@ function CharacterSheetPage() {
   }
 
   const [ formData, setFormData ] = useState<FormState>({
-    name: 'Name',
+    name: '',
     age: 0,
-    traits: [ 'trait', 'trait', 'trait' ],
-    status: 'N/A',
-    immuneSystem: 'N/A',
-    bronzeMileStone: '',
-    silverMileStone: '',
-    goldMileStone: '',
-    diamondMileStone: '',
-    species: 'N/A',
-    subspecies: 'N/A',
-    gender: 'N/A',
-    dominantSkin: 'N/A',
-    recessiveSkins: [ 'N/A' ],
-    eyeColor: 'N/A',
+    traits: [],
+    status: '',
+    immuneSystem: '',
+    bronzeMilestone: '',
+    silverMilestone: '',
+    goldMilestone: '',
+    diamondMilestone: '',
+    species: '',
+    subspecies: '',
+    gender: '',
+    dominantSkin: '',
+    recessiveSkins: [  ],
+    eyeColor: '',
     mutations: [],
-    fatherName: 'Name',
-    fatherDominantSkin: 'N/A',
-    fatherRecessiveSkins: [ 'N/A' ],
-    fatherEyeColor: 'N/A',
-    fatherHealthGenesMutations: 'N/A',
-    motherName: 'Name',
-    motherDominantSkin: 'N/A',
-    motherRecessiveSkins: [ 'N/A' ],
-    motherEyeColor: 'N/A',
-    motherHealthGenesMutations: 'N/A',
+    fatherName: '',
+    fatherDominantSkin: '',
+    fatherRecessiveSkins: [],
+    fatherEyeColor: '',
+    fatherHealthGenesMutations: '',
+    motherName: '',
+    motherDominantSkin: '',
+    motherRecessiveSkins: [],
+    motherEyeColor: '',
+    motherHealthGenesMutations: '',
     clutchmates: [],
     clutches: [],
   });
@@ -137,7 +183,7 @@ function CharacterSheetPage() {
       })
     );
   };
-
+  // Ignore error this, Just linter being pissed at me for using any instead of specifying types
   const onChange = (e: InputChangeEvent<any>) => {
     const { name, value } = e;
     setFormData(prevState => ({
@@ -206,13 +252,13 @@ ${ formData.description ? `*${ formData.description.trim() }*` : '' }
 > - **status**: ${ formData.status }
 
 \`milestones\`
-> :BRONZEMEDAL: ${ formData.bronzeMileStone }
+> :BRONZEMEDAL: ${ formData.bronzeMilestone }
 
-> :SILVERMEDAL: ${ formData.silverMileStone }
+> :SILVERMEDAL: ${ formData.silverMilestone }
 
-> :GOLDMEDAL: ${ formData.goldMileStone }
+> :GOLDMEDAL: ${ formData.goldMilestone }
 
-> :DIAMONDMEDAL: ${ formData.diamondMileStone }
+> :DIAMONDMEDAL: ${ formData.diamondMilestone }
 
 \`appearance\`
 > - **dominant skin**: ${ formData.dominantSkin }
@@ -237,54 +283,76 @@ ${ formData.clutchmates.length > 0 ? `> **Clutchmates:**\n${ generateClutchmates
 
 ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdown() }` : '' }`
 
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleFileInputClick = () => {
+    fileInputRef.current?.click();
+  }
+
+
   return (
     <div className="bg-4 text-1 rounded-2xl p-4 m-4 flex flex-col md:flex-row md:justify-between ">
+      {/*Hidden File Input */ }
+      <input type="file" accept=".asheet,.json" style={ { display: "none" } } ref={ fileInputRef }
+             onChange={ importData }/>
       <div className="py-4 px-6 w-auto md:w-1/2">
         <h2 className="text-xl font-bold mb-4">Character Form</h2>
+        <div className="flex flex-row justify-between lg:justify-center mb-4">
+          <button onClick={ handleFileInputClick }
+                  className="p-2 mr-4 rounded-xl hover:bg-3 transition ease-in-out duration-250 cursor-pointer">
+            Import
+            <GetAppOutlinedIcon/>
+          </button>
+          <button onClick={ exportData }
+                  className="p-2 ml-4 rounded-xl hover:bg-3 transition ease-in-out duration-250 cursor-pointer">
+            Export
+            <PublishOutlinedIcon/>
+          </button>
+        </div>
 
         <h3 className="text-lg font-bold mb-2 text-center">── General ──</h3>
-        <TextInput label="Name" name="name" onChange={ onChange }/>
-        <TextInput label="Description" placeholder="Optional" name={ "description" } onChange={ onChange }/>
-        <ListInput label="Traits" name="traits" onChange={ onChange }/>
-        <NumberInput label="Age" name="age" onChange={ onChange }/>
-        <TextInput label="Status" name="status" onChange={ onChange } placeholder="Alive or Dead"/>
+        <TextInput label="Name" name="name" value={formData.name} onChange={ onChange }/>
+        <TextInput label="Description" placeholder="Optional" name={ "description" } value={formData.description} onChange={ onChange }/>
+        <ListInput label="Traits" name="traits" value={formData.traits} onChange={ onChange }/>
+        <NumberInput label="Age" name="age" value={formData.age} onChange={ onChange }/>
+        <TextInput label="Status" name="status" value={formData.status} onChange={ onChange } placeholder="Alive or Dead"/>
 
         <h3 className="text-lg font-bold mb-2 text-center">── Milestones ──</h3>
-        <TextInput name="bronzeMilestone" onChange={ onChange }/>
-        <TextInput name="silverMilestone" onChange={ onChange }/>
-        <TextInput name="goldMilestone" onChange={ onChange }/>
-        <TextInput name="diamondMilestone" onChange={ onChange }/>
+        <TextInput label="Bronze Milestone" name="bronzeMilestone" value={formData.bronzeMilestone} onChange={ onChange }/>
+        <TextInput label="Silver Milestone" name="silverMilestone" value={formData.silverMilestone} onChange={ onChange }/>
+        <TextInput label="Gold Milestone" name="goldMilestone" value={formData.goldMilestone} onChange={ onChange }/>
+        <TextInput label="Diamond Milestone" name="diamondMilestone" value={formData.diamondMilestone} onChange={ onChange }/>
 
         <h3 className="text-lg font-bold mb-2 text-center">── Genetics ──</h3>
-        <TextInput label="Species" name="species" onChange={ onChange }/>
-        <TextInput label="Subspecies" name="subspecies" onChange={ onChange }/>
-        <TextInput label="Gender" name="gender" onChange={ onChange }/>
-        <TextInput label="Immune System Type" name="immuneSystem" onChange={ onChange }
+        <TextInput label="Species" name="species" value={formData.species} onChange={ onChange }/>
+        <TextInput label="Subspecies" name="subspecies" value={formData.subspecies} onChange={ onChange }/>
+        <TextInput label="Gender" name="gender" value={formData.gender} onChange={ onChange }/>
+        <TextInput label="Immune System Type" name="immuneSystem" value={formData.immuneSystem} onChange={ onChange }
                    placeholder="Neutral / Weak / Strong"/>
-        <TextInput label="Dominant Skin" name="dominantSkin" onChange={ onChange }/>
-        <ListInput label="Recessive Skin(s)" name="recessiveSkins" onChange={ onChange }/>
-        <TextInput label="Eye Color" name="eyeColor" onChange={ onChange }/>
-        <ListInput label="Mutations" name="mutations" onChange={ onChange }/>
+        <TextInput label="Dominant Skin" name="dominantSkin" value={formData.dominantSkin} onChange={ onChange }/>
+        <ListInput label="Recessive Skin(s)" name="recessiveSkins" value={formData.recessiveSkins} onChange={ onChange }/>
+        <TextInput label="Eye Color" name="eyeColor" value={formData.eyeColor} onChange={ onChange }/>
+        <ListInput label="Mutations" name="mutations" value={formData.mutations} onChange={ onChange }/>
 
         <h3 className="text-lg font-bold mb-2 text-center">── Family Tree ──</h3>
         <h4 className="text-md font-bold mb-2">Father</h4>
-        <TextInput label="Name" name="fatherName" onChange={ onChange }/>
-        <TextInput label="Link to Sheet" name="fatherLink" onChange={ onChange } placeholder="Optional"/>
-        <TextInput label="Dominant Skin" name="fatherDominantSkin" onChange={ onChange }/>
-        <ListInput label="Recessive Skins" name="fatherRecessiveSkins" onChange={ onChange }/>
-        <TextInput label="Eye Color" name="fatherEyeColor" onChange={ onChange }/>
-        <TextInput label="Health, Genes & Mutations" name="fatherHealthGenesMutations" onChange={ onChange }/>
+        <TextInput label="Name" name="fatherName" value={formData.fatherName} onChange={ onChange }/>
+        <TextInput label="Link to Sheet" name="fatherLink" value={formData.fatherLink} onChange={ onChange } placeholder="Optional"/>
+        <TextInput label="Dominant Skin" name="fatherDominantSkin" value={formData.fatherDominantSkin} onChange={ onChange }/>
+        <ListInput label="Recessive Skins" name="fatherRecessiveSkins" value={formData.fatherRecessiveSkins} onChange={ onChange }/>
+        <TextInput label="Eye Color" name="fatherEyeColor" value={formData.fatherEyeColor} onChange={ onChange }/>
+        <TextInput label="Health, Genes & Mutations" name="fatherHealthGenesMutations" value={formData.fatherHealthGenesMutations} onChange={ onChange }/>
 
         <h4 className="text-md font-bold mb-2">Mother</h4>
-        <TextInput label="Name" name="motherName" onChange={ onChange }/>
-        <TextInput label="Link to Sheet" name="motherLink" onChange={ onChange } placeholder="Optional"/>
-        <TextInput label="Dominant Skin" name="motherDominantSkin" onChange={ onChange }/>
-        <ListInput label="Recessive Skins" name="motherRecessiveSkins" onChange={ onChange }/>
-        <TextInput label="Eye Color" name="motherEyeColor" onChange={ onChange }/>
-        <TextInput label="Health, Genes & Mutations" name="motherHealthGenesMutations" onChange={ onChange }/>
+        <TextInput label="Name" name="motherName" value={formData.motherName} onChange={ onChange }/>
+        <TextInput label="Link to Sheet" name="motherLink" value={formData.motherLink} onChange={ onChange } placeholder="Optional"/>
+        <TextInput label="Dominant Skin" name="motherDominantSkin" value={formData.motherDominantSkin} onChange={ onChange }/>
+        <ListInput label="Recessive Skins" name="motherRecessiveSkins" value={formData.motherRecessiveSkins} onChange={ onChange }/>
+        <TextInput label="Eye Color" name="motherEyeColor" value={formData.motherEyeColor} onChange={ onChange }/>
+        <TextInput label="Health, Genes & Mutations" name="motherHealthGenesMutations" value={formData.motherHealthGenesMutations} onChange={ onChange }/>
 
         <h4 className="text-md font-bold mb-2">Clutchmates</h4>
-        <TextInput label="Link to Clutch" name="linkToClutch" onChange={ onChange } placeholder="Optional"/>
+        <TextInput label="Link to Clutch" name="linkToClutch" onChange={ onChange } value={formData.linkToClutch} placeholder="Optional"/>
         <ul>
           { clutchmates.map((clutchmate, index) => (
             <div className="rounded-2xl p-4 flex flex-col bg-5 justify-between mb-2" key={ index }>
@@ -300,16 +368,19 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
               <TextInput
                 label="Name"
                 name="name"
+                value={clutchmate.name}
                 onChange={ (e) => updateClutchmate(index, 'name', e.value) }
               />
               <TextInput
                 label="Gender"
                 name="sex"
+                value={clutchmate.sex}
                 onChange={ (e) => updateClutchmate(index, 'sex', e.value) }
               />
               <TextInput
                 label="Link"
                 name="link"
+                value={clutchmate.link}
                 placeholder="Optional"
                 onChange={ (e) => updateClutchmate(index, 'link', e.value) }
               />
@@ -339,42 +410,49 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
               <TextInput
                 label="Partner"
                 name="partner"
+                value={clutch.partner}
                 onChange={ (e) => updateClutch(index, 'partner', e.value) }
               />
               <TextInput
                 label="Link to partner's sheet"
                 name="link"
+                value={clutch.partnerLink}
                 placeholder="Optional"
                 onChange={ (e) => updateClutch(index, 'partnerLink', e.value) }
               />
               <NumberInput
                 label="Egg Count"
                 name="eggCount"
+                value={clutch.eggCount}
                 onChange={ (e) => updateClutch(index, 'eggCount', e.value) }/>
 
-              { clutch.eggs.map((_, eggIndex) => (
+              { clutch.eggs.map((egg, eggIndex) => (
                 <div key={ eggIndex } className="bg-4 rounded-xl p-3 mt-2">
                   <h6 className="text-sm font-bold mb-2">Egg { eggIndex + 1 }</h6>
                   <TextInput
                     label="Name"
                     name="name"
+                    value={egg.name}
                     placeholder="Optional"
                     onChange={ (e) => updateEgg(index, eggIndex, 'name', e.value) }
                   />
                   <TextInput
                     label="Link"
                     name="link"
+                    value={egg.link}
                     placeholder="Optional"
                     onChange={ (e) => updateEgg(index, eggIndex, 'link', e.value) }
                   />
                   <TextInput
                     label="Gender"
                     name="gender"
+                    value={egg.gender}
                     onChange={ (e) => updateEgg(index, eggIndex, 'gender', e.value) }
                   />
                   <TextInput
                     label="Status"
                     name="status"
+                    value={egg.status}
                     placeholder="alive/dead"
                     onChange={ (e) => updateEgg(index, eggIndex, 'status', e.value) }
                   />
