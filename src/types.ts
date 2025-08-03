@@ -27,6 +27,7 @@ interface FormOptionProps {
   label?: string;
   name: string;
   required?: boolean;
+  value?: any;
   onChange: (e: InputChangeEvent<any>) => void;
 }
 
@@ -71,10 +72,10 @@ export interface FormState {
   traits: string[];
   description?: string;
   status: string;
-  bronzeMileStone: string;
-  silverMileStone: string;
-  goldMileStone: string;
-  diamondMileStone: string;
+  bronzeMilestone: string;
+  silverMilestone: string;
+  goldMilestone: string;
+  diamondMilestone: string;
   species: string;
   subspecies: string;
   gender: string;
