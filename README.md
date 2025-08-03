@@ -1,6 +1,6 @@
 # 🧬 AntraSheets
 
-**AntraSheets** is a web-based application for generating structured character sheets focused on **anthropology** — the study of humans and their traits, cultures, and lineage. It’s designed to help with roleplay, worldbuilding, or creative character design in speculative biology, sci-fi, fantasy, or historical settings.
+**AntraSheets** is a web-based application for generating structured character sheets specifically for the **Anthrax Path of Titans (PoT) server**. It streamlines the entire process of documenting genetics, appearance, milestones, and family lineage — all in a clean, easy-to-use format.
 
 You can access the live website here: [https://www.anthrasheets.com/](https://www.anthrasheets.com/)
 
@@ -18,17 +18,6 @@ You can access the live website here: [https://www.anthrasheets.com/](https://ww
 - Fully web-based and local — no account required!
 
 ---
-
-## 🎭 Use Cases
-
-Think of AntraSheets like this:
-
-- You can create **fictional characters/species** for storytelling, worldbuilding, sci-fi, or fantasy.
-
-- Or you can build **real species sheets** based on actual humans, animals, fossils, or biology.
-
-The tool itself is flexible — it tracks traits, genetics, family trees, and milestones, which can apply to any kind of character or creature, real or imagined.
-
 
 ## 🧱 Sheet Structure Overview
 
@@ -73,21 +62,21 @@ The tool itself is flexible — it tracks traits, genetics, family trees, and mi
 To run AntraSheets locally, follow these steps:
 
 1. Clone the repository:  
-   git clone https://github.com/OccultParrot/AnthraSheets
-   cd AnthraSheets
+   `git clone https://github.com/OccultParrot/AnthraSheets`  
+   `cd AnthraSheets`
 
 2. Install dependencies:  
-   npm install
+   `npm install`
 
 3. Start the development server:  
-   npm run dev  
+   `npm run dev`  
    This will start the app locally and usually open it at http://localhost:5173.
 
 4. To create a production build:  
-   npm run build  
+   `npm run build`  
    This compiles and bundles the app into optimized static files.
 
 5. To preview the production build locally:  
-   npm run preview
+   `npm run preview`
 
 **NOTE:** Make sure you have Node.js installed (preferably version 18 or newer).
