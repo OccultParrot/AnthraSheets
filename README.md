@@ -1,6 +1,6 @@
-# 🧬 AntraSheets
+# 🧬 AnthraSheets
 
-**AntraSheets** is a web-based application for generating structured character sheets specifically for the **Anthrax Path of Titans (PoT) server**. It streamlines the entire process of documenting genetics, appearance, milestones, and family lineage — all in a clean, easy-to-use format.
+**AnthraSheets** is a web-based application for generating structured character sheets specifically for the **Anthrax Path of Titans (PoT) server**. It streamlines the entire process of documenting genetics, appearance, milestones, and family lineage — all in a clean, easy-to-use format.
 
 You can access the live website here: [https://www.anthrasheets.com/](https://www.anthrasheets.com/)
 
@@ -59,7 +59,7 @@ You can access the live website here: [https://www.anthrasheets.com/](https://ww
 
 ## 🛠️ Installation & Build
 
-To run AntraSheets locally, follow these steps:
+To run AnthraSheets locally, follow these steps:
 
 1. Clone the repository:  
    `git clone https://github.com/OccultParrot/AnthraSheets`  
