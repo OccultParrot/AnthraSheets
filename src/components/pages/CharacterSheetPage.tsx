@@ -14,6 +14,7 @@ import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import TextInput from "../inputs/TextInput.tsx";
 import ListInput from "../inputs/ListInput.tsx";
 import NumberInput from "../inputs/NumberInput.tsx";
+import ToggleInput from "../inputs/Toggle Input.tsx";
 
 // Types
 import type { Clutch, Clutchmate, Egg, FormState, InputChangeEvent } from "../../types.ts";
@@ -117,6 +118,7 @@ function CharacterSheetPage() {
     recessiveSkins: [],
     eyeColor: '',
     mutations: [],
+    adopted: false,
     fatherName: '',
     fatherDominantSkin: '',
     fatherRecessiveSkins: [],
@@ -156,7 +158,7 @@ function CharacterSheetPage() {
    * The appended item is initialized blank
    */
   const appendClutchmate = () => {
-    setClutchmates(prev => [ ...prev, { name: '', sex: '' } ]);
+    setClutchmates(prev => [ ...prev, { name: '', sex: '', adopted: false, } ]);
   }
 
   /**
@@ -203,7 +205,8 @@ function CharacterSheetPage() {
               const newEggs = Array.from({ length: eggsToAdd }, () => ({
                 name: '',
                 gender: '',
-                status: ''
+                status: '',
+                adopted: false,
               }));
               updatedClutch.eggs = [ ...currentEggs, ...newEggs ];
             } else if (newEggCount < currentEggs.length) {
@@ -267,13 +270,14 @@ function CharacterSheetPage() {
 
     // Map through each clutchmate and format their information
     return clutchmates.map((clutchmate) => {
+      const adopted = clutchmate.adopted ? '| adopted' : '';
       const genderSymbol = clutchmate.sex.toLowerCase() === 'male' ? '♂' :
         clutchmate.sex.toLowerCase() === 'female' ? '♀' : '♀/♂';
       const nameDisplay = clutchmate.name || 'unknown';
       const linkDisplay = clutchmate.link ? `[${ nameDisplay }](${ clutchmate.link })` : nameDisplay;
 
       // Return the markdown formatted string for the clutchmate
-      return `>\n> ${ genderSymbol } ${ linkDisplay }`;
+      return `>\n> ${ genderSymbol } ${ linkDisplay } ${ adopted }`;
     }).join('\n');
   };
 
@@ -301,12 +305,13 @@ function CharacterSheetPage() {
       // Map through each egg in the clutch and format their information
       const eggsMarkdown = clutch.eggs.length > 0 ?
         clutch.eggs.map(egg => {
+          const emoji = egg.adopted ? ':empty_nest:' : ':egg:';
           const nameDisplay = egg.name || '[name]';
           const genderDisplay = egg.gender.toLowerCase() === 'male' ? '♂' :
             egg.gender.toLowerCase() === 'female' ? '♀' : '♀/♂';
           const statusDisplay = egg.status || '[status]';
           const linkDisplay = egg.link ? `[${ nameDisplay }](${ egg.link })` : nameDisplay;
-          return `> - :egg: • ${ linkDisplay } | ${ genderDisplay } | ${ statusDisplay }`;
+          return `> - ${ emoji } • ${ linkDisplay } | ${ genderDisplay } | ${ statusDisplay }`;
         }).join('\n') :
         `> - :egg: • [name] | [gender] | [status]`;
 
@@ -334,11 +339,11 @@ ${ formData.description ? `*${ formData.description.trim() }*` : '' }
 
 \`milestones\`
 > :BRONZEMEDAL: ${ formData.bronzeMilestone }
-
+>
 > :SILVERMEDAL: ${ formData.silverMilestone }
-
+>
 > :GOLDMEDAL: ${ formData.goldMilestone }
-
+>
 > :DIAMONDMEDAL: ${ formData.diamondMilestone }
 
 \`appearance\`
@@ -348,6 +353,7 @@ ${ formData.description ? `*${ formData.description.trim() }*` : '' }
 > - **mutations**: ${ formData.mutations.length > 0 ? formData.mutations.join(', ') : 'none' }
 
 \`family tree\`   
+> ${formData.adopted ? "***Adopted***\n>\n" : ""}
 > ♂ **father**: *${ formData.fatherLink ? `[${ formData.fatherName }](${ formData.fatherLink })` : formData.fatherName }*
 > - **skin**: [D] ${ formData.fatherDominantSkin } [R] ${ formData.fatherRecessiveSkins.join(', ') }
 > - **eye color**: ${ formData.fatherEyeColor }
@@ -376,7 +382,7 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
 
 
   return (
-    <div className="bg-4 text-1 rounded-2xl p-4 m-4 flex flex-col md:flex-row md:justify-between ">
+    <div className="bg-darker text-light rounded-2xl p-4 m-4 flex flex-col md:flex-row md:justify-between ">
       {/*Hidden File Input */ }
       <input type="file" accept=".asheet,.json" style={ { display: "none" } } ref={ fileInputRef }
              onChange={ importData }/>
@@ -385,12 +391,12 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
         {/* Import Export Button Group */ }
         <div className="flex flex-row justify-between lg:justify-center mb-4">
           <button onClick={ handleFileInputClick }
-                  className="p-2 mr-4 rounded-xl hover:bg-3 transition ease-in-out duration-250 cursor-pointer">
+                  className="p-2 mr-4 rounded-xl hover:bg-medium transition ease-in-out duration-250 cursor-pointer">
             Import
             <GetAppOutlinedIcon/>
           </button>
           <button onClick={ exportData }
-                  className="p-2 ml-4 rounded-xl hover:bg-3 transition ease-in-out duration-250 cursor-pointer">
+                  className="p-2 ml-4 rounded-xl hover:bg-medium transition ease-in-out duration-250 cursor-pointer">
             Export
             <PublishOutlinedIcon/>
           </button>
@@ -428,6 +434,12 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
         <ListInput label="Mutations" name="mutations" value={ formData.mutations } onChange={ onChange }/>
 
         <h3 className="text-lg font-bold mb-2 text-center">── Family Tree ──</h3>
+        <ToggleInput 
+          label="Is Adopted"
+          name="adopted" 
+          value={ formData.adopted }
+          onChange={onChange}
+          />
         <h4 className="text-md font-bold mb-2">Father</h4>
         <TextInput label="Name" name="fatherName" value={ formData.fatherName } onChange={ onChange }/>
         <TextInput label="Link to Sheet" name="fatherLink" value={ formData.fatherLink } onChange={ onChange }
@@ -458,13 +470,13 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
         {/* Clutchmate Inputs */ }
         <ul>
           { clutchmates.map((clutchmate, index) => (
-            <div className="rounded-2xl p-4 flex flex-col bg-5 justify-between mb-2" key={ index }>
+            <div className="rounded-2xl p-4 flex flex-col bg-dark justify-between mb-2" key={ index }>
               <div className="flex justify-between items-center w-full mb-2">
                 <h5 className="text-md font-bold">{ clutchmate.name || `Clutchmate ${ index + 1 }` }</h5>
                 <button onClick={ () => {
                   setClutchmates(prev => prev.filter((_, i) => i !== index));
                 } }
-                        className="flex items-center justify-center w-8 h-8 bg-5 rounded-full cursor-pointer hover:bg-3 transition ease-in-out duration-250">
+                        className="flex items-center justify-center w-8 h-8 bg-dark rounded-full cursor-pointer hover:bg-medium transition ease-in-out duration-250">
                   <RemoveIcon/>
                 </button>
               </div>
@@ -480,6 +492,12 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
                 value={ clutchmate.sex }
                 onChange={ (e) => updateClutchmate(index, 'sex', e.value) }
               />
+              <ToggleInput
+                label="Is Adopted"
+                name="adopted"
+                value={ clutchmate.adopted }
+                onChange={ (e) => updateClutchmate(index, 'adopted', e.value) }
+              />
               <TextInput
                 label="Link"
                 name="link"
@@ -494,7 +512,7 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
         {/* Add Clutchmate Button */ }
         <div className="flex justify-center">
           <button onClick={ appendClutchmate }
-                  className="flex items-center justify-center w-8 h-8 bg-4 rounded-full cursor-pointer hover:bg-3 transition ease-in-out duration-250 mr-2">
+                  className="flex items-center justify-center w-8 h-8 bg-darker rounded-full cursor-pointer hover:bg-medium transition ease-in-out duration-250 mr-2">
             <AddIcon/>
           </button>
         </div>
@@ -503,13 +521,13 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
         {/* Clutches Inputs */ }
         <ul>
           { clutches.map((clutch, index) => (
-            <div className="rounded-2xl p-4 flex flex-col bg-5 justify-between mb-2" key={ index }>
+            <div className="rounded-2xl p-4 flex flex-col bg-dark justify-between mb-2" key={ index }>
               <div className="flex justify-between items-center w-full mb-2">
                 <h5 className="text-md font-bold">{ `Clutch ${ index + 1 }` }</h5>
                 <button onClick={ () => {
                   setClutches(prev => prev.filter((_, i) => i !== index));
                 } }
-                        className="flex items-center justify-center w-8 h-8 bg-5 rounded-full cursor-pointer hover:bg-3 transition ease-in-out duration-250">
+                        className="flex items-center justify-center w-8 h-8 bg-dark rounded-full cursor-pointer hover:bg-medium transition ease-in-out duration-250">
                   <RemoveIcon/>
                 </button>
               </div>
@@ -534,7 +552,7 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
 
               {/* Dynamically Create Egg Inputs based on how large the Egg Counter is */ }
               { clutch.eggs.map((egg, eggIndex) => (
-                <div key={ eggIndex } className="bg-4 rounded-xl p-3 mt-2">
+                <div key={ eggIndex } className="bg-darker rounded-xl p-3 mt-2">
                   <h6 className="text-sm font-bold mb-2">Egg { eggIndex + 1 }</h6>
                   <TextInput
                     label="Name"
@@ -556,6 +574,12 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
                     value={ egg.gender }
                     onChange={ (e) => updateEgg(index, eggIndex, 'gender', e.value) }
                   />
+                  <ToggleInput
+                    label="Is Adopted"
+                    name="adopted"
+                    value={ egg.adopted }
+                    onChange={ (e) => updateEgg(index, eggIndex, 'adopted', e.value) }
+                  />
                   <TextInput
                     label="Status"
                     name="status"
@@ -572,7 +596,7 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
         {/* Add Clutch Button */ }
         <div className="flex justify-center">
           <button onClick={ appendClutch }
-                  className="flex items-center justify-center w-8 h-8 bg-4 rounded-full cursor-pointer hover:bg-3 transition ease-in-out duration-250 mr-2">
+                  className="flex items-center justify-center w-8 h-8 bg-darker rounded-full cursor-pointer hover:bg-medium transition ease-in-out duration-250 mr-2">
             <AddIcon/>
           </button>
         </div>
@@ -580,11 +604,11 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
 
       </div>
       {/* Preview Section */ }
-      <div className="bg-5 p-4 rounded-lg w-auto md:w-1/2">
+      <div className="bg-dark p-4 rounded-lg w-auto md:w-1/2">
         {/* Section Header */ }
         <header className="flex items-center justify-between mb-4 px-2">
           <h2 className="text-xl font-bold mb-4">Preview</h2>
-          <button className="p-2 rounded-xl hover:bg-3 transition ease-in-out duration-250 cursor-pointer"
+          <button className="p-2 rounded-xl hover:bg-medium transition ease-in-out duration-250 cursor-pointer"
                   onClick={ () => copyToClipboard(markdownContent) }>
             <ContentCopyIcon/>
           </button>
