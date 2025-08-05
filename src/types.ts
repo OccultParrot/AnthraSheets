@@ -55,6 +55,15 @@ export interface NumberInputProps extends FormOptionProps {
   step?: number;
 }
 
+export interface ToggleInputProps extends FormOptionProps {
+
+}
+
+export interface ToggleProps {
+  checked?: boolean;
+  onChange: (value: boolean) => void;
+}
+
 /**
  * The values that a clutchmate will have in the form.
  */
@@ -62,7 +71,7 @@ export interface Clutchmate {
   name: string;
   link?: string;
   sex: string;
-
+  adopted: boolean;
 }
 
 /**
@@ -84,6 +93,7 @@ export interface Egg {
   link?: string;
   gender: string;
   status: string;
+  adopted: boolean;
 }
 
 /**
@@ -112,6 +122,7 @@ export interface FormState {
   eyeColor: string;
   mutations: string[];
   // Family Tree
+  adopted: boolean;
   fatherName: string;
   fatherLink?: string;
   fatherDominantSkin: string;
