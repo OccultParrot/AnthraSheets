@@ -5,9 +5,9 @@
 
 /* The color theme for the site */
 @theme {
-    --color-1: #cad2c5;
-    --color-2: #84a98c;
-    --color-3: #52796f;
-    --color-4: #354f52;
-    --color-5: #2f3e46;
+    --color-light: #cad2c5;
+    --color-lighter: #84a98c;
+    --color-medium: #52796f;
+    --color-darker: #354f52;
+    --color-dark: #2f3e46;
 }

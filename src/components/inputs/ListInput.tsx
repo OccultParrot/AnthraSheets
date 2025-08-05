@@ -37,7 +37,7 @@ function ListInput(props: ListInputProps) {
 
   return (
     <div className="mb-4 flex flex-row items-center">
-      <label className="block text-sm font-medium text-1 mb-2">{ props.label ? props.label : props.name }:</label>
+      <label className="block text-sm font-medium text-light mb-2">{ props.label ? props.label : props.name }:</label>
       <input
         name={ props.name }
         type="text"
@@ -46,7 +46,7 @@ function ListInput(props: ListInputProps) {
         placeholder="Seperate items with commas"
         onChange={ onChange }
         onBlur={ onBlur }
-        className="h-8 ml-2 w-full p-2 bg-3 rounded-md focus:outline-none focus:ring-2 focus:border-transparent"
+        className="h-8 ml-2 w-full p-2 bg-medium rounded-md focus:outline-none focus:ring-lighter focus:border-transparent"
       />
     </div>
   )
