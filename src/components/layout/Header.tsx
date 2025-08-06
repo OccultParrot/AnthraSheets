@@ -40,7 +40,7 @@ function Header() {
     if (!dinoFact) return null;
 
     return (
-      <div className="flex flex-col text-center sm:flex-row justify-between gap-2 p-4 text-1">
+      <div className="flex flex-col text-center sm:flex-row justify-between gap-2 p-4 text-light">
         <h2 className="text-l font-bold">{ dinoFact.Name }:</h2>
         <em>{ dinoFact.Description }</em>
       </div>
@@ -50,10 +50,10 @@ function Header() {
   return (
     <header className="sm:sticky sm:top-0 sm:z-50">
       <div
-        className="bg-3 text-1 flex flex-col h-fit w-full items-center justify-between pb-4 shadow-sm sm:h-20 sm:flex-row sm:pb-0">
+        className="bg-medium text-light flex flex-col h-fit w-full items-center justify-between pb-4 shadow-sm sm:h-20 sm:flex-row sm:pb-0">
         <Link to="/" className="flex items-center justify-between group">
           <h1
-            className="ml-0 text-2xl font-bold text-1 transition ease-in-out group-hover:text-2 hover:scale-110 sm:ml-4">
+            className="ml-0 text-2xl font-bold text-light transition ease-in-out group-hover:text-lighter hover:scale-110 sm:ml-4">
             AnthraSheets
           </h1>
         </Link>
