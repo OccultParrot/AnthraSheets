@@ -16,6 +16,9 @@ import ListInput from "../inputs/ListInput.tsx";
 import NumberInput from "../inputs/NumberInput.tsx";
 import ToggleInput from "../inputs/Toggle Input.tsx";
 
+// Formats
+import { keebeeFormat } from "../../config/formats/keebeeFormat.ts";
+
 // Types
 import type { Clutch, Clutchmate, Egg, FormState, InputChangeEvent } from "../../types.ts";
 
@@ -257,118 +260,7 @@ function CharacterSheetPage() {
     }));
   }
 
-  /**
-   * Generates the markdown for the clutchmates section.
-   *
-   * @returns A string containing the markdown formatted clutchmates.
-   */
-  const generateClutchmatesMarkdown = () => {
-    // If there are no clutchmates, dont render anything
-    if (clutchmates.length === 0) {
-      return '';
-    }
-
-    // Map through each clutchmate and format their information
-    return clutchmates.map((clutchmate) => {
-      const adopted = clutchmate.adopted ? '| adopted' : '';
-      const genderSymbol = clutchmate.sex.toLowerCase() === 'male' ? '♂' :
-        clutchmate.sex.toLowerCase() === 'female' ? '♀' : '♀/♂';
-      const nameDisplay = clutchmate.name || 'unknown';
-      const linkDisplay = clutchmate.link ? `[${ nameDisplay }](${ clutchmate.link })` : nameDisplay;
-
-      // Return the markdown formatted string for the clutchmate
-      return `>\n> ${ genderSymbol } ${ linkDisplay } ${ adopted }`;
-    }).join('\n');
-  };
-
-  /**
-   * Generates the markdown for the clutches section.
-   *
-   * @returns A string containing the markdown formatted clutches.
-   */
-  const generateClutchesMarkdown = () => {
-    // If there are no clutches, dont render anything
-    if (clutches.length === 0) {
-      return '';
-    }
-
-    // Map through each clutch and format their information
-    return clutches.map((clutch, index) => {
-      // Generate the clutch number with ordinal suffix
-      const clutchNumber = index + 1;
-      const ordinalSuffix = clutchNumber === 1 ? 'st' : clutchNumber === 2 ? 'nd' : clutchNumber === 3 ? 'rd' : 'th';
-
-      const partnerDisplay = clutch.partnerLink ?
-        `[${ clutch.partner || 'partner' }](${ clutch.partnerLink })` :
-        (clutch.partner || '[link to sheet]');
-
-      // Map through each egg in the clutch and format their information
-      const eggsMarkdown = clutch.eggs.length > 0 ?
-        clutch.eggs.map(egg => {
-          const emoji = egg.adopted ? ':empty_nest:' : ':egg:';
-          const nameDisplay = egg.name || '[name]';
-          const genderDisplay = egg.gender.toLowerCase() === 'male' ? '♂' :
-            egg.gender.toLowerCase() === 'female' ? '♀' : '♀/♂';
-          const statusDisplay = egg.status || '[status]';
-          const linkDisplay = egg.link ? `[${ nameDisplay }](${ egg.link })` : nameDisplay;
-          return `> - ${ emoji } • ${ linkDisplay } | ${ genderDisplay } | ${ statusDisplay }`;
-        }).join('\n') :
-        `> - :egg: • [name] | [gender] | [status]`;
-
-      return `**\`${ clutchNumber }${ ordinalSuffix } clutch\`**
-> - **sire/dame**: ${ partnerDisplay }
-${ eggsMarkdown }`;
-    }).join('\n\n');
-  };
-
-  // Formatted markdown content for the character sheet
-  // This is what is exported, and also what's displayed in the preview
-  const markdownContent = `
-# ${ formData.name.trim() }
-
-*${ formData.traits.join(', ') }*
-
-${ formData.description ? `*${ formData.description.trim() }*` : '' }
-
-\`genetic information\`
-> - **species & subspecies**: *${ formData.species } ${ formData.subspecies }*
-> - **gender**: ${ formData.gender }
-> - **age**: ${ formData.age } season${ formData.age <= 1 ? '' : 's' }
-> - **immune system type**: ${ formData.immuneSystem }
-> - **status**: ${ formData.status }
-
-\`milestones\`
-> :BRONZEMEDAL: ${ formData.bronzeMilestone }
->
-> :SILVERMEDAL: ${ formData.silverMilestone }
->
-> :GOLDMEDAL: ${ formData.goldMilestone }
->
-> :DIAMONDMEDAL: ${ formData.diamondMilestone }
-
-\`appearance\`
-> - **dominant skin**: ${ formData.dominantSkin }
-> - **recessive skin(s)**: ${ formData.recessiveSkins }
-> - **eye color**: ${ formData.eyeColor }
-> - **mutations**: ${ formData.mutations.length > 0 ? formData.mutations.join(', ') : 'none' }
-
-\`family tree\`   
-> ${formData.adopted ? "***Adopted***\n>\n" : ""}
-> ♂ **father**: *${ formData.fatherLink ? `[${ formData.fatherName }](${ formData.fatherLink })` : formData.fatherName }*
-> - **skin**: [D] ${ formData.fatherDominantSkin } [R] ${ formData.fatherRecessiveSkins.join(', ') }
-> - **eye color**: ${ formData.fatherEyeColor }
-> - **health, genes & mutation**: ${ formData.fatherHealthGenesMutations }
-> 
-> ♀ **mother**: *${ formData.motherLink ? `[${ formData.motherName }](${ formData.motherLink })` : formData.motherName }*
-> - **skin**: [D] ${ formData.motherDominantSkin } [R] ${ formData.motherRecessiveSkins.join(', ') }
-> - **eye color**: ${ formData.motherEyeColor }
-> - **health, genes & mutation**: ${ formData.motherHealthGenesMutations }
-
-${ formData.linkToClutch ? `> [link to clutch](${ formData.linkToClutch })` : '' }
-
-${ formData.clutchmates.length > 0 ? `> **Clutchmates:**\n${ generateClutchmatesMarkdown() }` : '' }
-
-${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdown() }` : '' }`
+  const markdownContent = keebeeFormat(formData);
 
   // The reference to the hidden file input element for the import functionality
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -434,12 +326,12 @@ ${ formData.clutches.length > 0 ? `\n\n**Clutches:**\n${ generateClutchesMarkdow
         <ListInput label="Mutations" name="mutations" value={ formData.mutations } onChange={ onChange }/>
 
         <h3 className="text-lg font-bold mb-2 text-center">── Family Tree ──</h3>
-        <ToggleInput 
+        <ToggleInput
           label="Is Adopted"
-          name="adopted" 
+          name="adopted"
           value={ formData.adopted }
-          onChange={onChange}
-          />
+          onChange={ onChange }
+        />
         <h4 className="text-md font-bold mb-2">Father</h4>
         <TextInput label="Name" name="fatherName" value={ formData.fatherName } onChange={ onChange }/>
         <TextInput label="Link to Sheet" name="fatherLink" value={ formData.fatherLink } onChange={ onChange }
