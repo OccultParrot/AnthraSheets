@@ -59,6 +59,12 @@ export interface ToggleInputProps extends FormOptionProps {
 
 }
 
+export interface ModalProps {
+  onClose?: () => void;
+  title: string;
+  children?: ReactElement | ReactElement[];
+}
+
 export interface ToggleProps {
   checked?: boolean;
   onChange: (value: boolean) => void;
