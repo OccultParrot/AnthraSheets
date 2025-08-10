@@ -9,15 +9,26 @@ import Footer from "./components/layout/Footer.tsx";
 // Config
 import type { RouteProps } from "./types.ts";
 import { routes } from "./config/routes.tsx";
+import ModalText from "./config/ModalText.tsx";
+import { modalId } from "./config/constants.ts";
 
 
 function App() {
+
+
   const Layout = (): ReactElement => {
     return (
       <div className="flex h-screen flex-col">
-        <Modal isOpen={true} title="Test Modal">
-          <p>Testttt ttttttttttttttt tttttttttttttttt tttttttttttttttttttttt ttttttttttttttttttttttt ttttttttttttttttttttttttt ttttttttttttttttt</p>
-        </Modal>
+        {
+          localStorage.getItem("welcome") !== modalId ? (
+            <Modal title="Welcome to AnthraSheets!" onClose={() => {
+              localStorage.setItem("welcome", modalId);
+            }}>
+              <ModalText/>
+            </Modal>
+          ) : <></>
+        }
+
         <Header/>
         <main className="grow">
           <Outlet/>

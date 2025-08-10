@@ -60,7 +60,6 @@ export interface ToggleInputProps extends FormOptionProps {
 }
 
 export interface ModalProps {
-  isOpen?: boolean;
   onClose?: () => void;
   title: string;
   children?: ReactElement | ReactElement[];
