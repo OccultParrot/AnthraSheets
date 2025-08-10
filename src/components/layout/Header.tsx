@@ -48,7 +48,7 @@ function Header() {
   };
 
   return (
-    <header className="sm:sticky sm:top-0 sm:z-50">
+    <header className="sm:sticky sm:top-0 sm:z-48">
       <div
         className="bg-medium text-light flex flex-col h-fit w-full items-center justify-between pb-4 shadow-sm sm:h-20 sm:flex-row sm:pb-0">
         <Link to="/" className="flex items-center justify-between group">

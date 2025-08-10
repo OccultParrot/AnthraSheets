@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import type { ReactElement, ReactNode } from "react";
 
 /**
  * The properties needed for a route in the configs
@@ -57,6 +57,13 @@ export interface NumberInputProps extends FormOptionProps {
 
 export interface ToggleInputProps extends FormOptionProps {
 
+}
+
+export interface ModalProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+  title: string;
+  children?: ReactElement | ReactElement[];
 }
 
 export interface ToggleProps {

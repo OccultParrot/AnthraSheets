@@ -2,6 +2,7 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import type { ReactElement } from "react";
 
 // Layout Elements
+import Modal from "./components/layout/Modal.tsx";
 import Header from "./components/layout/Header.tsx"
 import Footer from "./components/layout/Footer.tsx";
 
@@ -14,6 +15,9 @@ function App() {
   const Layout = (): ReactElement => {
     return (
       <div className="flex h-screen flex-col">
+        <Modal isOpen={true} title="Test Modal">
+          <p>Testttt ttttttttttttttt tttttttttttttttt tttttttttttttttttttttt ttttttttttttttttttttttt ttttttttttttttttttttttttt ttttttttttttttttt</p>
+        </Modal>
         <Header/>
         <main className="grow">
           <Outlet/>
