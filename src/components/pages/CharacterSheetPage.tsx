@@ -332,6 +332,7 @@ function CharacterSheetPage() {
           value={ formData.adopted }
           onChange={ onChange }
         />
+        <TextInput name="birthLocation" onChange={onChange} required={false} placeholder="Optional" label="Birth Location" value={formData.birthLocation}/>
         <h4 className="text-md font-bold mb-2">Father</h4>
         <TextInput label="Name" name="fatherName" value={ formData.fatherName } onChange={ onChange }/>
         <TextInput label="Link to Sheet" name="fatherLink" value={ formData.fatherLink } onChange={ onChange }

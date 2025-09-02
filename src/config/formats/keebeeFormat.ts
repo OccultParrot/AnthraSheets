@@ -92,6 +92,7 @@ ${ formData.description ? formData.description : "" }`
   const familySection = () => {
     return `
 \` Family Tree \`${ formData.adopted ? '\n> (Adopted)\n> ' : '' }
+${formData.birthLocation ? `\n\n> Birth Location: ${ formData.birthLocation }\n` : "" }
 > ♂ Father: ${ formData.fatherName ? toLink(formData.fatherName, formData.fatherLink) : "Unknown" }
 > 
 > - Dominant Skin: ${ formData.fatherDominantSkin || "unknown" }
