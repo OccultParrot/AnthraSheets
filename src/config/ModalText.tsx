@@ -8,8 +8,8 @@ function ModalText() {
       <ul>
         <li className="font-bold">Added:</li>
         {/* Stuff I added */}
-        <li> Welcome Modal, that I will keep updated with new stuff I did </li>
-        <br />
+        <li> Optional birthplace option, so you can enter where your dinosaur is from!</li>
+        <li className="text-xs text-right">- Thank you @taryo for this idea!!</li>
         {/*<li className="font-bold"> Changed: </li>*/}
         {/* Stuff I changed */}
         {/*<br />*/}
@@ -19,10 +19,6 @@ function ModalText() {
         {/*<li className="font-bold"> Removed: </li>*/}
         {/* Stuff I removed */}
       </ul>
-      <p className="font-bold"> Help Wanted!! </p>
-      <p> I want to add some more formats to the website, to add some customization to how the generated sheets look! </p>
-      <p> If you have a format you would like to be added to AnthraSheets, please DM me on discord and I will credit you for the format! </p>
-      
       <br />
       <p className="text-sm text-right">- Written by OccultParrot</p>
     </>

@@ -129,6 +129,7 @@ export interface FormState {
   mutations: string[];
   // Family Tree
   adopted: boolean;
+  birthLocation?: string;
   fatherName: string;
   fatherLink?: string;
   fatherDominantSkin: string;
