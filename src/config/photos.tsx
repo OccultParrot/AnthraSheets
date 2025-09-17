@@ -62,4 +62,8 @@ export const backgroundPhotos: BackgroundPhoto[] = [
     url: '/landing_images/dango_7.png',
     photographer: '@fattydango'
   },
+  {
+    url: '/landing_images/orci_1.png',
+    photographer: 'Orci'
+  }
 ]
