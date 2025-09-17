@@ -14,6 +14,13 @@ import { modalId } from "./config/constants.ts";
 
 
 function App() {
+  
+  const makeRoute = (item: RouteProps, index: number) => {
+    console.log(item.route)
+    return (
+      <Route path={ item.route } element={ item.element } index={ index === 0 }/>
+    )
+  }
 
 
   const Layout = (): ReactElement => {
@@ -46,7 +53,7 @@ function App() {
         <Route path="/" element={ <Layout/> }>
           {
             routes.map((item: RouteProps, index: number) => (
-              <Route path={ item.route } element={ item.element } index={ index === 0 }/>
+              makeRoute(item, index)
             ))
           }
         </Route>
