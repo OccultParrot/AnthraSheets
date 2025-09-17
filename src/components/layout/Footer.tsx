@@ -1,8 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function Footer() {
+  const location = useLocation()
+  
   return (
-    <div className="bg-darker text-light p-4 text-center">
+    // TODO: Change path to / when ready to launch
+    <div className={ `${location.pathname == '/indev' ? 'hidden' : 'visible'} bg-darker text-light p-4 text-center` }>
       <p className="text-sm text-light">
         Written by OccultParrot :D
       </p>

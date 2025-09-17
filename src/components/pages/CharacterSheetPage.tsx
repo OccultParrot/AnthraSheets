@@ -272,12 +272,8 @@ function CharacterSheetPage() {
     fileInputRef.current?.click();
   }
 
-
-  return (
-    <div className="bg-darker text-light rounded-2xl p-4 m-4 flex flex-col md:flex-row md:justify-between ">
-      {/*Hidden File Input */ }
-      <input type="file" accept=".asheet,.json" style={ { display: "none" } } ref={ fileInputRef }
-             onChange={ importData }/>
+  const renderFormSection = () => {
+    return (
       <div className="py-4 px-6 w-auto md:w-1/2">
         <h2 className="text-xl font-bold mb-4">Character Form</h2>
         {/* Import Export Button Group */ }
@@ -496,7 +492,11 @@ function CharacterSheetPage() {
 
 
       </div>
-      {/* Preview Section */ }
+    )
+  }
+  
+  const renderPreviewSection = () => {
+    return (
       <div className="bg-dark p-4 rounded-lg w-auto md:w-1/2">
         {/* Section Header */ }
         <header className="flex items-center justify-between mb-4 px-2">
@@ -511,6 +511,19 @@ function CharacterSheetPage() {
           <Markdown remarkPlugins={ [ remarkGfm ] }>{ markdownContent }</Markdown>
         </article>
       </div>
+    )
+  }
+
+  return (
+    <div className="bg-darker text-light rounded-2xl p-4 m-4 flex flex-col md:flex-row md:justify-between ">
+      {/*Hidden File Input */ }
+      <input type="file" accept=".asheet,.json" style={ { display: "none" } } ref={ fileInputRef }
+             onChange={ importData }/>
+      
+      {/* Form Section */ }
+      {renderFormSection()}
+      {/* Preview Section */ }
+      {renderPreviewSection()}
     </div>
   );
 }
