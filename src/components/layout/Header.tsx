@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import {useLocation} from "react-router-dom";
 
 // The values that the dino fact API returns
 type DinoFact = {
@@ -8,6 +9,9 @@ type DinoFact = {
 };
 
 function Header() {
+  // Getting the current location to conditionally render the header
+  const location = useLocation();
+  
   // States for dino fact stuff
   const [ dinoFact, setDinoFact ] = useState<DinoFact | null>(null);
   const [ loading, setLoading ] = useState(true);
@@ -48,7 +52,8 @@ function Header() {
   };
 
   return (
-    <header className="sm:sticky sm:top-0 sm:z-48">
+    // TODO: Change path to / when ready to launch
+    <header className={ `${location.pathname == "/indev" ? "hidden": "visible"} sm:sticky sm:top-0 sm:z-48` }>
       <div
         className="bg-medium text-light flex flex-col h-fit w-full items-center justify-between pb-4 shadow-sm sm:h-20 sm:flex-row sm:pb-0">
         <Link to="/" className="flex items-center justify-between group">

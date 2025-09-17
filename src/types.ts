@@ -146,3 +146,8 @@ export interface FormState {
   clutchmates: Clutchmate[];
   clutches: Clutch[];
 }
+
+export interface BackgroundPhoto {
+  url: string;
+  photographer: string;
+}
