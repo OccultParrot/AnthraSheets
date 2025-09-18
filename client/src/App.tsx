@@ -11,7 +11,7 @@ import type { RouteProps } from "./types.ts";
 import { routes } from "./config/routes.tsx";
 import ModalText from "./config/ModalText.tsx";
 import { modalId } from "./config/constants.ts";
-
+import { UserProvider } from "./components/providers/UserProvider.tsx";
 
 function App() {
   
@@ -47,18 +47,20 @@ function App() {
 
 
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Generating Routes */ }
-        <Route path="/" element={ <Layout/> }>
-          {
-            routes.map((item: RouteProps, index: number) => (
-              makeRoute(item, index)
-            ))
-          }
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <UserProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Generating Routes */ }
+          <Route path="/" element={ <Layout/> }>
+            {
+              routes.map((item: RouteProps, index: number) => (
+                makeRoute(item, index)
+              ))
+            }
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </UserProvider>
   )
 }
 

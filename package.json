@@ -1,40 +1,36 @@
 {
   "name": "anthrasheets",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+  "version": "1.0.0",
+  "description": "**AnthraSheets** is a web-based application for generating structured character sheets specifically for the **Anthrax Path of Titans (PoT) server**. It streamlines the entire process of documenting genetics, appearance, milestones, and family lineage — all in a clean, easy-to-use format.",
+  "homepage": "https://github.com/OccultParrot/AnthraSheets#readme",
+  "bugs": {
+    "url": "https://github.com/OccultParrot/AnthraSheets/issues"
   },
-  "dependencies": {
-    "@emotion/styled": "^11.14.1",
-    "@mui/icons-material": "^7.2.0",
-    "@mui/styled-engine": "^7.2.0",
-    "@tailwindcss/vite": "^4.1.11",
-    "install": "^0.13.0",
-    "npm": "^11.5.2",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-markdown": "^10.1.0",
-    "react-router-dom": "^7.7.1",
-    "remark-gfm": "^4.0.1",
-    "tailwindcss": "^4.1.11"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OccultParrot/AnthraSheets.git"
+  },
+  "license": "MIT",
+  "author": "OccultParrot",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"npm run server:start\" \"npm run client:dev\"",
+    "client:dev": "cd client && npm run dev",
+    "server:start": "cd server && npm run start"
   },
   "devDependencies": {
-    "@eslint/js": "^9.30.1",
-    "@tailwindcss/typography": "^0.5.16",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react": "^4.6.0",
-    "eslint": "^9.30.1",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.3.0",
-    "typescript": "~5.8.3",
-    "typescript-eslint": "^8.35.1",
-    "vite": "^7.0.4"
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.10"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "express-session": "^1.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "passport-discord": "^0.1.4",
+    "pg": "^8.16.3",
+    "sequelize": "^6.37.7"
   }
 }

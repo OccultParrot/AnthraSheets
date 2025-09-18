@@ -4,6 +4,7 @@ import type { RouteProps } from "../types.ts";
 import CharacterSheetPage from "../components/pages/CharacterSheetPage.tsx";
 import AboutPage from "../components/pages/AboutPage.tsx";
 import LandingPage from "../components/pages/LandingPage.tsx";
+import DashboardPage from "../components/pages/DashboardPage.tsx";
 
 /**
  * The list of routes for the application.
@@ -21,6 +22,11 @@ export const routes: RouteProps[] = [
     name: 'landing',
     route: '/indev',
     element: <LandingPage />
+  },
+  {
+    name: 'Dashboard',
+    route: '/dashboard',
+    element: <DashboardPage/>
   },
   {
     name: 'About',

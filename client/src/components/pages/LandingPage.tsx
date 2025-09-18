@@ -19,6 +19,10 @@ function LandingPage() {
     setPhoto(getRandomPhoto());
   }
 
+  const signInWithDiscord = () => {
+    window.location.href = import.meta.env.VITE_API_URL + "/api/auth/discord";
+  }
+
   console.log(photo);
 
   return (
@@ -31,7 +35,8 @@ function LandingPage() {
         <p className="mt-4 text-2xl font-sans">Species Directory</p>
         <div className="mt-18 flex flex-row gap-8">
           <button
-            className="p-4 w-fit text-md bg-blurple rounded-2xl hover:bg-dark-blurple transition-colors flex flex-row gap-4 justify-center items-center cursor-pointer select-none">
+            className="p-4 w-fit text-md bg-blurple rounded-2xl hover:bg-dark-blurple transition-colors flex flex-row gap-4 justify-center items-center cursor-pointer select-none"
+            onClick={ signInWithDiscord }>
             <img src={ Discord } alt="Discord Icon" className="h-8"/>
             Login with Discord
           </button>
