@@ -5,7 +5,7 @@ class User extends Model { }
 
 User.init(
   {
-    id: {
+    discord_id: {
       type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true,

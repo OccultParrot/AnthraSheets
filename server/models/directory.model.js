@@ -35,7 +35,7 @@ Directory.init(
       defaultValue: false,
     },
     created_at: {
-      type: DataTypes.Date,
+      type: DataTypes.DATE,
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
@@ -55,10 +55,16 @@ Directory.init(
   }
 );
 
-Directory.hasMany(Directory, {
+UserModel.hasMany(Directory, {
   foreignKey: 'user_id',
   sourceKey: 'discord_id',
   as: 'directories'
+});
+
+Directory.belongsTo(UserModel, {
+  foreignKey: 'user_id',
+  targetKey: 'discord_id',
+  as: 'user'
 });
 
 export default Directory;
