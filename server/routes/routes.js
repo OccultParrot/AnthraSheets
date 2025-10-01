@@ -7,10 +7,16 @@ import SheetRoutes from "./sheet.js";
 import TagRoutes from "./tag.js";
 import AdminRoutes from "./admin.js";
 
+// Middleware imports
+import rateLimit from "../middleware/rate.limit.js";
+
 const router = express.Router();
 
 router.use("/test", TestRoute);
 router.use("/auth", AuthRoutes);
+
+// we want to rate limit all routes that interact with the database
+router.use(rateLimit);
 
 // Database interaction routes
 router.use("/user", UserRoutes);
