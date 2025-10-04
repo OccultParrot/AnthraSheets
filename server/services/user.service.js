@@ -1,6 +1,10 @@
 // Import the user model when written
-import bcrypt from "bcrypt";
+import { User } from "../models/index.js";
 
 class UserService {
+  async createUser(userData) {
     
+  }
 }
+
+export default new UserService();
